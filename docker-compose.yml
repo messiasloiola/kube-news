@@ -1,0 +1,49 @@
+services:
+  # Serviço da aplicação Node.js
+  app:
+    # Constrói a imagem a partir do Dockerfile localizado no diretório 'src'
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      # Mapeia a porta 8080 do host para a porta 8080 do contêiner
+      - "8080:8080"
+    environment:
+      # Define as variáveis de ambiente para a aplicação
+      - NODE_ENV=production
+      # O host do banco de dados é o nome do serviço 'db'
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=kubedevnews
+      - DB_PASSWORD=Pg#123
+      - DB_DATABASE=kubedevnews
+      - DB_SSL_REQUIRE=false
+    depends_on:
+      # Garante que o serviço 'app' só inicie após o serviço 'db' estar saudável
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Serviço do banco de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    environment:
+      # Variáveis para inicializar o banco de dados
+      - POSTGRES_USER=kubedevnews
+      - POSTGRES_PASSWORD=Pg#123
+      - POSTGRES_DB=kubedevnews
+    volumes:
+      # Monta um volume nomeado para persistir os dados do banco
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Comando para verificar se o banco de dados está pronto para aceitar conexões
+      test: ["CMD-SHELL", "pg_isready -U kubedevnews -d kubedevnews"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  # Define o volume nomeado para persistência dos dados
+  postgres_data:
+    driver: local

@@ -28,17 +28,15 @@ O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, proj
 /
 ├── src/                      # Código-fonte principal
 │   ├── models/               # Modelos de dados
-│   │   └── post.js           # Definição do modelo Post
 │   ├── views/                # Templates EJS
-│   │   ├── partial/          # Componentes parciais (header, footer)
-│   │   ├── edit-news.ejs     # Formulário de edição
-│   │   ├── index.ejs         # Página principal
-│   │   └── view-news.ejs     # Visualização de notícia
 │   ├── static/               # Arquivos estáticos (CSS, imagens)
 │   ├── middleware.js         # Middlewares personalizados
 │   ├── server.js             # Ponto de entrada da aplicação
 │   ├── system-life.js        # Endpoints de health check
-│   └── package.json          # Dependências
+│   ├── package.json          # Dependências
+│   ├── Dockerfile            # Define a imagem Docker da aplicação
+│   └── .dockerignore         # Arquivos a serem ignorados pelo Docker
+├── docker-compose.yml        # Orquestra os contêineres da aplicação e do banco de dados
 ├── popula-dados.http         # Arquivo para popular o banco com dados de exemplo
 └── README.md                 # Documentação
 ```
@@ -47,14 +45,13 @@ O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, proj
 
 ### Pré-requisitos
 
-- Node.js
-- PostgreSQL
-- Docker (opcional, para containerização)
-- Kubernetes (opcional, para orquestração)
+- Node.js e npm (para execução local)
+- Docker e Docker Compose (para execução com contêineres)
+- PostgreSQL (apenas para execução local sem Docker)
 
 ### Variáveis de Ambiente
 
-Para configurar a aplicação, defina as seguintes variáveis de ambiente:
+Para configurar a aplicação, defina as seguintes variáveis de ambiente. Ao usar o `docker-compose.yml`, essas variáveis já são configuradas automaticamente para os contêineres.
 
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|--------------|
@@ -67,7 +64,23 @@ Para configurar a aplicação, defina as seguintes variáveis de ambiente:
 
 ## 🚀 Instalação e Execução
 
-### Execução Local
+### Execução com Docker (Recomendado)
+
+Com o Docker e o Docker Compose instalados, você pode iniciar toda a aplicação (Node.js + PostgreSQL) com um único comando no diretório raiz do projeto:
+
+1.  **Construir e iniciar os contêineres:**
+    ```bash
+    docker-compose up -d --build
+    ```
+2.  **Acessar a aplicação:**
+    Acesse [http://localhost:8080](http://localhost:8080) no seu navegador.
+
+3.  **Para parar a aplicação:**
+    ```bash
+    docker-compose down
+    ```
+
+### Execução Local (Alternativa)
 
 1. Clone o repositório
 2. Instale as dependências:
@@ -75,7 +88,7 @@ Para configurar a aplicação, defina as seguintes variáveis de ambiente:
    cd src
    npm install
    ```
-3. Configure as variáveis de ambiente necessárias
+3. Certifique-se de que uma instância do PostgreSQL esteja em execução e configure as variáveis de ambiente necessárias.
 4. Inicie a aplicação:
    ```bash
    npm start
