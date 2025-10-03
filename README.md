@@ -1,6 +1,6 @@
 # Kube-News
 
-Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers e Kubernetes.
+Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers e Kubernetes!!
 
 ## 📋 Sobre o Projeto
 
