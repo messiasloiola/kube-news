@@ -1,0 +1,24 @@
+# values-dev.yaml
+# Helm values for the development environment deployed by ArgoCD
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/messiasloiola/kube-news
+  # The tag will be updated automatically by the CI pipeline
+  tag: main
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+# For dev, we use NodePort. For prod, you might use an Ingress.
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30000
+
+postgres:
+  # For this GitOps setup, we are disabling persistence for simplicity.
+  # In a real-world scenario, you would have a proper StorageClass.
+  persistence:
+    enabled: false

@@ -30,9 +30,21 @@ jobs:
           images: ghcr.io/${{ github.repository }}
 
       - name: Build and push Docker image
+        id: build-and-push
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Update image tag in values-dev.yaml
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # Use the commit SHA as the new tag
+          NEW_TAG=$(echo ${{ steps.meta.outputs.version }})
+          sed -i "s/tag: .*/tag: $NEW_TAG/" chart/values-dev.yaml
+          git add chart/values-dev.yaml
+          git commit -m "ci: Update image tag to ${NEW_TAG}"
+          git push
