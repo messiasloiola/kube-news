@@ -1,0 +1,47 @@
+# Default values for kube-news chart.
+
+# -- Overwrite the namespace for all resources
+namespace: kube-news
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/messias-henry/kube-news
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# -- Reference to a secret for pulling images from a private registry
+imagePullSecrets: []
+# - name: my-registry-secret
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30000
+
+# -- PostgreSQL sub-chart configuration
+postgres:
+  # -- PostgreSQL image tag
+  image:
+    repository: postgres
+    tag: "13-alpine"
+  # -- Database configuration
+  db:
+    name: kubedevnews
+    user: kubedevnews
+  # -- The password for the database user.
+  # It's highly recommended to override this value via --set or a values file passed to helm,
+  # and use a tool like ArgoCD Vault Plugin to inject the secret from a secure source.
+  # For local development, you can set it here. Example: "mysecretpassword"
+  password: ""
+
+  # -- Persistence configuration
+  persistence:
+    enabled: true
+    # -- If undefined or blank, a default StorageClass will be used.
+    # For RKE2 or other local clusters, you might need to set this to a specific
+    # StorageClass name after installing a provisioner like Longhorn.
+    # Example: storageClass: "longhorn"
+    storageClass: ""
+    size: 1Gi

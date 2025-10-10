@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KubeNews Values",
+  "description": "Values for the KubeNews Helm chart.",
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "type": "string",
+      "description": "Overwrite the namespace for all resources."
+    },
+    "replicaCount": {
+      "type": "integer",
+      "description": "Number of replicas for the application deployment.",
+      "minimum": 1
+    },
+    "image": {
+      "type": "object",
+      "description": "Application image configuration.",
+      "properties": {
+        "repository": {
+          "type": "string",
+          "description": "The image repository."
+        },
+        "pullPolicy": {
+          "type": "string",
+          "description": "Image pull policy.",
+          "enum": ["Always", "IfNotPresent", "Never"]
+        },
+        "tag": {
+          "type": "string",
+          "description": "Image tag. Overrides the chart's appVersion if set."
+        }
+      },
+      "required": ["repository"]
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "description": "Reference to a secret for pulling images from a private registry.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "description": "Service configuration.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Kubernetes service type.",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer"]
+        },
+        "port": {
+          "type": "integer",
+          "description": "Service port."
+        },
+        "nodePort": {
+          "type": ["integer", "null"],
+          "description": "NodePort to expose if service type is NodePort."
+        }
+      },
+      "required": ["type", "port"]
+    },
+    "postgres": {
+      "type": "object",
+      "description": "PostgreSQL sub-chart configuration.",
+      "properties": {
+        "image": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string",
+              "description": "PostgreSQL image repository."
+            },
+            "tag": {
+              "type": "string",
+              "description": "PostgreSQL image tag."
+            }
+          }
+        },
+        "db": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Database name."
+            },
+            "user": {
+              "type": "string",
+              "description": "Database user."
+            }
+          }
+        },
+        "password": {
+          "type": "string",
+          "description": "Database password. It is highly recommended to manage this outside of values.yaml for production."
+        },
+        "persistence": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable persistence using a PersistentVolumeClaim."
+            },
+            "storageClass": {
+              "type": "string",
+              "description": "StorageClass to use. If empty, the default StorageClass is used."
+            },
+            "size": {
+              "type": "string",
+              "description": "Size of the persistent volume."
+            }
+          }
+        }
+      }
+    }
+  }
+}

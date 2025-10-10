@@ -1,0 +1,18 @@
+{{- if .Values.postgres.persistence.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "kube-news.name" . }}-postgres-pvc
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "kube-news.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if .Values.postgres.persistence.storageClass }}
+  storageClassName: {{ .Values.postgres.persistence.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end -}}
