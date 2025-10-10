@@ -28,6 +28,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,prefix=,suffix=
 
       - name: Build and push Docker image
         id: build-and-push
