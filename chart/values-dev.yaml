@@ -22,3 +22,7 @@ postgres:
   # In a real-world scenario, you would have a proper StorageClass.
   persistence:
     enabled: false
+
+  # Set a deterministic password for the dev environment.
+  # For production, use a secrets management tool.
+  password: "admin"
