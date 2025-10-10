@@ -1,0 +1,20 @@
+# Arquivos do Git
+.git
+.gitignore
+
+# Arquivos do Docker
+.dockerignore
+
+# Dependências do Node.js (a serem instaladas dentro do contêiner)
+node_modules
+src/node_modules
+npm-debug.log
+
+# Arquivos de configuração de CI/CD e documentação
+.github
+argocd
+README.md
+
+# Arquivos de IDE
+.vscode
+.idea
