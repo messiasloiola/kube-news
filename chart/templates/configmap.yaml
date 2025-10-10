@@ -10,5 +10,5 @@ data:
   DB_HOST: {{ include "kube-news.name" . }}-postgres
 
   # Postgres-specific config (for the postgres container)
-  DB_DATABASE: {{ .Values.postgres.db.name | quote }}
-  DB_USERNAME: {{ .Values.postgres.db.user | quote }}
+  DB_DATABASE: {{ .Values.postgres.db.name }}
+  DB_USERNAME: {{ .Values.postgres.db.user }}
