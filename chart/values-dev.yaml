@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/messiasloiola/kube-news
   # The tag will be updated automatically by the CI pipeline
-  tag: 9debe46
+  tag: 64fb198
 
 imagePullSecrets:
   - name: ghcr-secret
