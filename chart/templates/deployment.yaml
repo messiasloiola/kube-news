@@ -30,8 +30,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "kube-news.name" . }}-config
-            - secretRef:
-                name: {{ include "kube-news.name" . }}-secret
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kube-news-postgres-secret
+                  key: postgres-password
           livenessProbe:
             httpGet:
               path: /health
