@@ -95,9 +95,9 @@
             }
           }
         },
-        "password": {
+        "existingSecret": {
           "type": "string",
-          "description": "Database password. It is highly recommended to manage this outside of values.yaml for production."
+          "description": "Name of the pre-existing secret containing the database password."
         },
         "persistence": {
           "type": "object",

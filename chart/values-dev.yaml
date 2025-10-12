@@ -23,6 +23,6 @@ postgres:
   persistence:
     enabled: false
 
-  # Set a deterministic password for the dev environment.
-  # For production, use a secrets management tool.
-  password: "admin"
+  # Use a pre-existing secret for the database password.
+  # This secret must be created in the cluster manually before deploying the chart.
+  existingSecret: "kube-news-postgres-secret"

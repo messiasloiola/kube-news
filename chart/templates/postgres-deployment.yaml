@@ -40,8 +40,8 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "kube-news.name" . }}-secret
-                  key: DB_PASSWORD
+                  name: {{ .Values.postgres.existingSecret }}
+                  key: postgres-password
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data

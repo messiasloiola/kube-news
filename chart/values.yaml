@@ -58,11 +58,8 @@ postgres:
   db:
     name: kubedevnews
     user: kubedevnews
-  # -- The password for the database user.
-  # It's highly recommended to override this value via --set or a values file passed to helm,
-  # and use a tool like ArgoCD Vault Plugin to inject the secret from a secure source.
-  # For local development, you can set it here. Example: "mysecretpassword"
-  password: ""
+  # -- Name of the existing secret that contains the database password
+  existingSecret: ""
 
   resources: {}
 
